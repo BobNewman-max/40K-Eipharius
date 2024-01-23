@@ -403,7 +403,34 @@
 	if(isAutochisel(W)||isChisel(W))
 		user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
 
-		var/craftingchoices = list("Messina Pattern 'Pewter' stub pistol", "Boscelot Pattern Stub Rifle", "SMG magazine (9mm)", "Speed Loaders (.44)", "Loose Rifle Ammo (7.62)", ) //lists all possible crafting choices
+				var/craftingchoices = list("Messina Pattern 'Pewter' stub pistol", "Boscelot Pattern Stub Rifle", "SMG magazine (9mm)", "Speed Loaders (.44)", "Loose Rifle Ammo (7.62)","Machine Steel", ) //lists all possible crafting choices
+		
+		if("Machine Steel")
+			visible_message("[user]'s auto-chisel moves in a blur over [src], marking it as a future unit of Steel.")
+			playsound(src, 'sound/effects/autochisel.ogg', 100, 1, 1)
+			src.whatwemaking = 6
+			src.ismarked = 1
+			src.name = "Iron Ingot (Steel)"
+			
+		if(6)
+			if(prob(25))
+				user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
+				visible_message("[user] carefully carves the ingot into a blessed unit of Steel! Now take the ingot and dip it in the holy oil!")
+				src.rubtheoils = 1
+				src.name = "Iron Ingot (Carved Steel)"
+				playsound(src, 'sound/effects/lasercutter.ogg', 100, 1, 1)
+			else
+				user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
+				visible_message("[user] cuts away at the ingot, it will take a few more passes until we're done!"
+				playsound(src, 'sound/effects/lasercutter.ogg', 100, 1, 1)
+		
+		
+		if(6)
+			playsound(src, 'sound/voice/blessing.ogg', 100, 0, 1)
+			visible_message("As the carvings are lathered with the holy oil they begin to take their intended shape!")
+			new /obj/item/stack/material/iron(user.loc,10)
+			qdel(src)
+			return
 
 
 		var/craftchoice = input("Choose what to craft", "Available crafts") as null|anything in craftingchoices
